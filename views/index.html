@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/public/style.css">
   </head>
   <body>
+    <div id="micky"><h2>Micky Cat</h2></div>
     <header>
       <h1>
         <b>ISQA Project</b> - Personal Library
@@ -35,29 +36,29 @@
     <hr style='margin: 50px'>
     <div id ='sampleposting'>
       <h2 style="text-align: left">Test API responses:</h2>
-      <form action="/api/books" method="post" class="border">
+      <form id="frmsubmitbook" action="" class="border">
         <h4>Test post to /api/books</h4>
         Book Title:<br>
         <input type="text" name="title" value=""><br>
-        <input type="submit" value="Submit">
+        <input id="btnsubmit-book" type="submit" value="Submit">
       </form>
-      <form action="" method="post" id="commentTest" class="border">
+      <form action="" id="commentTest" class="border">
         <h4>Test post to /api/books/{bookid}</h4>
         BookId to comment on:<br>
         <input type="text" name="id" value="" id="idinputtest"><br>
         Comment:<br>
         <input type="text" name="comment" value=""><br>
-        <input type="submit" value="Submit">
+        <input id="comment-on-book" type="submit" value="Submit">
       </form>
     </div>
     <hr style='margin: 50px'>
     <div id='sampleui'>
       <h2 style="text-align: left">Sample Front-End:</h2>
-      <form id="newBookForm" class="border">
+      <form id="frmNewBook" class="border" action="">
         <input type="text" id="bookTitleToAdd" name="title" placeholder="New Book Title" style="width: 295px">
-        <button type="submit" value="Submit" id="newBook">Submit New Book!</button>
+        <button id="btnsubmit-new-book" type="submit" value="Submit">Submit New Book!</button>
       </form>
-      <div id='display'></div>          
+      <div id='display'></div>
       <div id='bookDetail' class='border'>
         <p id='detailTitle'>Select a book to see it's details and comments</p>
         <ol id='detailComments'></ol>
@@ -66,20 +67,20 @@
     </div>
     <hr style='margin: 50px'>
 
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
-            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+            integrity=""
             crossorigin="anonymous"></script>
-    <script src="/public/client.js"></script>           
+    <script src="/public/client.js"></script>
     <script>
       /*
       *  For #sampleposting to update form action url to test inputs book id
       */
       $(function() {
-       $('#commentTest').submit(function(){
-         var id = $('#idinputtest').val();
+       $('#commentTest').submit(function() {
+         var id = $('#idinputtest').val
          $(this).attr('action', "/api/books/" + id);
        });
-      });
+     });
    </script>
   </body>
 </html>
