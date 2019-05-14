@@ -22,7 +22,6 @@ const MONGODB_CONNECTION_STRING = process.env.DB;
             if (err) console.error(err);
             if (results) {
               var lib;
-              console.log(results)
               res.json(results.map(r => {
                 return {'_id': r._id, 'title': r.title,
                 'comments': r.comments,
@@ -42,15 +41,17 @@ const MONGODB_CONNECTION_STRING = process.env.DB;
     })
     .post(function (req, res) {
       var title = req.body.title;
-      console.info("POST   ")
       try {
         MongoClient.connect(MONGODB_CONNECTION_STRING, function(err, db) {
           if (err) console.error(err);
+          if (!title) {
+            res.send('no title given');
+            return;
+          }
           try {
             db.collection('library').insertOne(
               {title: title, comments: []}, function(err, r) {
                 if (err) console.error(err);
-                console.info("BOOK ADDED!")
                 res.json({title, id: req.body._id})
               });
           }
@@ -72,35 +73,29 @@ const MONGODB_CONNECTION_STRING = process.env.DB;
     });
 
   app.route('/api/books/:id')
-    .get(function (req, res){
+    .get(function (req, res) {
       var bookid = req.params.id;
       //json res format: {"_id": bookid, "title": book_title, "comments": [comment,comment,...]}
-      console.info("'/api/books/:id'");
       var id = req.params.id;
       var handle = new Handle();
         handle.getResultFromDB(id)
       .then(function(data) {
         if (data) {
-          console.info("GET::if (value) {")
-          console.log(data)
           res.json(data);
         }
         else res.json({error: 'no result found'})
       })
       .catch(function(e) {
-        console.error(e);
+        res.json({error: 'no result found'})
+        // console.error(e);
       });
     })
 
-    .post(function(req, res){
+    .post(function(req, res) {
       var bookid = req.params.id;
       var comment = req.body.comment;
-      console.log("PARAMS")
-      console.log(req.params)
       MongoClient.connect(MONGODB_CONNECTION_STRING, function(err, db) {
         if (err) console.error(err);
-        console.log("ObjectId(bookid)")
-        console.log(bookid)
         db.collection('library').updateOne(
           {_id: ObjectId(bookid)}, {$push: {comments: comment}}
         );

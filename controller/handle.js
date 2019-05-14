@@ -1,4 +1,5 @@
 
+
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectId
 const dotenv = require('dotenv');
@@ -19,7 +20,6 @@ class Handle {
             {_id: ObjectId(id)}, (err, data) => {
             if (err) console.error(err);
             if (data) {
-              console.info("Handle::if (data) {")
               this.resobj = {
                 id: data._id,
                 title: data.title,
